@@ -1,0 +1,15 @@
+global:
+  domain: argocd.localhost
+
+configs:
+  params: 
+    server.insecure: true                                # TLS terminates at Traefik, not argocd-server
+
+
+server:
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+
+dex: 
+  enabled: false                                         # re-enable in the SSO stage; saves RAM now
