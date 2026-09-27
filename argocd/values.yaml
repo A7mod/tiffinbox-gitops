@@ -4,6 +4,9 @@ global:
 configs:
   params: 
     server.insecure: true                                # TLS terminates at Traefik, not argocd-server
+  cm:
+    ui.bannercontent: "TiffinBox platform - managed by GitOps. Change me via PR, not kubectl."
+    ui.bannerpermanent: "true"  
 
 
 server:
