@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+  namespace: argocd
+  # NO finalizer: deleting this app must never delete Argo itself
+spec:
+  project: default
+  sources:
+    - repoURL: https://argoproj.github.io/argo-helm
+      chart: argo-cd
+      targetRevision: 10.9.2  # same version Helm installed
+      helm:
+        releaseName: argocd    # same name --> resource names match -> adopt, not replace  
+        valueFiles:
+          - $values/argocd/values.yaml
+    - repoURL: https://github.com/A7mod/tiffinbox-gitops.git
+      targetRevision: main
+      ref: values         # this source only provides $values      
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    syncOptions: 
+      - ServerSideApply=true
