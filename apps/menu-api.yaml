@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: 
+  name: menu-api
+  namespace: argocd
+  finalizers: 
+    - resources-finalizer.argocd.argoproj.io   # delete app → delete its k8s resources
+spec: 
+  project: default
+  source: 
+    repoURL: https://stefanprodan.github.io/podinfo
+    chart: podinfo
+    targetRevision: 6.15.0
+    helm: 
+      valuesObject: 
+        replicaCount: 2
+        ui: 
+          message: "TiffinBox Menu - today's tiffins"
+          color: "#e67e22"
+        ingress: 
+          enabled: true
+          className: traefik
+          hosts: 
+            - host: menu.localhost
+              paths: 
+                - path: /
+                  pathType: Prefix
+  destination: 
+    server: https://kubernetes.default.svc
+    namespace: tb-dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions: 
+      - CreateNamespace=true                     
