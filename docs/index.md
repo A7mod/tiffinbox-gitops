@@ -6,8 +6,8 @@ pain and ends with a working fix.
 | Stage | Pain | Status |
 |---|---|---|
 | 0 | Only Rohit can deploy | Done |
-| 1 | Who changed prod? | In progress |
-| 2 | But it worked on staging | Planned |
+| 1 | Who changed prod? | Done |
+| 2 | But it worked on staging | Next |
 | 3 | Release day is scary | Planned |
 | 4 | The IPL-final outage | Planned |
 | 5 | Team 3 needs Kafka by Friday | Planned |

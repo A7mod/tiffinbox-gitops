@@ -1,4 +1,6 @@
 # Changelog
+## 2026-09-27 (stage 1)
+- App-of-apps root, menu-api (podinfo), Argo CD self-managed, UI banner via Git
 ## 2026-09-27
 - Stage 1 started; docs/ skeleton added
 ## 2026-09-26
