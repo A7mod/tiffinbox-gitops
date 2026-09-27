@@ -15,8 +15,8 @@ spec:
       valuesObject: 
         replicaCount: 2
         ui: 
-          message: "TiffinBox Menu - today's tiffins"
-          color: "#e67e22"
+          message: "TiffinBox Menu v2 - Diwali Specials"
+          color: "#a61e4d"
         ingress: 
           enabled: true
           className: traefik
