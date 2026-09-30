@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: menu-api
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]     ## typo in a {{ }} variable → fail loudly, not silently
+  generators:
+    - git: 
+        repoURL: https://github.com/A7mod/tiffinbox-gitops.git
+        revision: main
+        directories: 
+          - path: workloads/menu-api/overlays/*     # each match one Application
+  template: 
+    metadata:
+      name: 'menu-api{{.path.basename}}'            # dev -> menu-api-dev
+      labels: 
+        env: '{{.path.path}}'
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec: 
+      project: default
+      source: 
+        repoURL: https://github.com/A7mod/tiffinbox-gitops.git
+        rargetRevision: main
+        path: '{{.path.path}}'                      #workloads/menu-api/overlays/dev
+      destination: 
+        server: https://kubernetes.default.svc  
+        namespace: 'tb-{{.path.basename}}'          # tb-dev, tb-prod, tb-staging
+      syncPolicy:
+        syncOptions:
+          - createNamespace=true  
+  templatePatch: |                                  # auto-sync everywhere EXCEPT prod
+    {{- if ne .path.basename "prod" }}
+    spec: 
+      syncPolicy:
+        automated: 
+          prune: true
+          selfHeal: true
+    {{- end }}              
