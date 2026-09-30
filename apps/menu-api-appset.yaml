@@ -14,23 +14,23 @@ spec:
           - path: workloads/menu-api/overlays/*     # each match one Application
   template: 
     metadata:
-      name: 'menu-api{{.path.basename}}'            # dev -> menu-api-dev
+      name: 'menu-api-{{.path.basename}}'            # dev -> menu-api-dev
       labels: 
-        env: '{{.path.path}}'
+        env: '{{.path.basename}}'
       finalizers:
         - resources-finalizer.argocd.argoproj.io
     spec: 
       project: default
       source: 
         repoURL: https://github.com/A7mod/tiffinbox-gitops.git
-        rargetRevision: main
+        targetRevision: main
         path: '{{.path.path}}'                      #workloads/menu-api/overlays/dev
       destination: 
         server: https://kubernetes.default.svc  
         namespace: 'tb-{{.path.basename}}'          # tb-dev, tb-prod, tb-staging
       syncPolicy:
         syncOptions:
-          - createNamespace=true  
+          - CreateNamespace=true  
   templatePatch: |                                  # auto-sync everywhere EXCEPT prod
     {{- if ne .path.basename "prod" }}
     spec: 
