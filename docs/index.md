@@ -7,7 +7,7 @@ pain and ends with a working fix.
 |---|---|---|
 | 0 | Only Rohit can deploy | Done |
 | 1 | Who changed prod? | Done |
-| 2 | But it worked on staging | Next |
-| 3 | Release day is scary | Planned |
+| 2 | But it worked on staging | Done |
+| 3 | Release day is scary | Next |
 | 4 | The IPL-final outage | Planned |
 | 5 | Team 3 needs Kafka by Friday | Planned |
