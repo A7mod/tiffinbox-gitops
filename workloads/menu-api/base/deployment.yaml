@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: menu-api
+  labels: 
+    app: menu-api
+spec: 
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: menu-api
+  template:
+    metadata:
+      labels:
+        app: menu-api
+    spec: 
+      containers:
+        - name: podinfo
+          image: ghcr.io/stefanprodan/podinfo:6.15.0
+          ports: 
+            - name: http
+              containerPort: 9898      #podinfo listens here
+          env: 
+            - name: PODINFO_UI_MESSAGE
+              value: "TiffinBox Menu"
+            - name: PODINFO_UI_COLOR
+              value: "#e67e22"
+          readinessProbe:                  # ready for traffic? controls ServiceEndpoints
+            httpGet: { path: /readyz, port: http }
+          livenessProbe:                   # still alive? --> restarts container if failing
+            httpGet: { path: /healthz, port: http }      
+          resources: 
+            requests: { cpu: 25m, memory: 32Mi }   #scheduler will reserve this
+            limits: { memory: 64Mi }               #OOM-killed above this
+            
