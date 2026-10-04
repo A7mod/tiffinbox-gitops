@@ -3,7 +3,7 @@ kind: Deployment
 metadata: 
   name: order-api
   labels: 
-    apps: order-api
+    app: order-api
 spec: 
   replicas: 1
   selector: 

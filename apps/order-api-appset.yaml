@@ -16,7 +16,7 @@ spec:
     metadata:
       name: 'order-api-{{.path.basename}}'
       labels:
-        env: '{{.path.path}}'
+        env: '{{.path.basename}}'
       finalizers:
         - resources-finalizer.argocd.argoproj.io
     spec: 
