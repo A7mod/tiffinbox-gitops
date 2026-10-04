@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: order-api
+  labels: 
+    apps: order-api
+spec: 
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: order-api
+  template:
+    metadata:
+      labels:
+        app: order-api
+    spec:
+      terminationGracePeriodSeconds: 45            # preStop 5s + worst-case drain ~15s, with margin
+      securityContext:
+        runAsNonRoot: true
+      containers:
+        - name: order-api
+          image: ghcr.io/a7mod/tiffinbox-order-api   # tag set per overlay
+          ports: 
+            - name: http
+              containerPort: 8080
+          env:                                        # values must be strings → quotes
+            - name: WORKERS
+              value: "3"
+            - name: QUEUE_SIZE
+              value: "10"
+            - name: PREP_TIME
+              value: "3s"
+          readinessProbe:
+            httpGet: { path: /readyz, port: http }
+            periodSeconds: 5
+          livenessProbe:
+            httpGet: { path: /healthz, port: http }
+            periodSeconds: 10
+          lifecycle:
+            preStop:
+              sleep:
+                seconds: 5
+          resources:
+            requests: { cpu: 25m, memory: 32Mi }    
+            limits: { memory: 64Mi }
+          securityContext:
+            allowPrivilegeEscalation: false 
+            readOnlyRootFilesystem: true
+            capabilities: { drop: ["ALL"] }      

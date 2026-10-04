@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+replicas:
+  - name: order-api
+    count: 3
+images:
+  - name: ghcr.io/a7mod/tiffinbox-order-api
+    newTag: a0f6631
+patches:
+  - target: { kind: Ingress, name: order-api }
+    patch: |-
+      - op: replace
+        path: /spec/rules/0/host
+        value: order.localhost
