@@ -7,7 +7,7 @@ replicas:
     count: 1
 images:
   - name: ghcr.io/a7mod/tiffinbox-order-api
-    newTag: a0f6631
+    newTag: e5e0eeb
 patches:
   - target: { kind: Ingress, name: order-api }
     patch: |-
