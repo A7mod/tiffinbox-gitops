@@ -1,4 +1,8 @@
 # Changelog
+## 2026-10-04 (stage 3, in progress)
+- order-api deployed via ApplicationSet; CI auto-bumps the dev tag (GitOps loop closed)
+## 2026-10-01
+- order-api v1: worker pool, backpressure, drain, tests, distroless image, CI to GHCR
 ## 2026-09-30 (stage 2)
 - Kustomize base + overlays, menu-api ApplicationSet, prod manual gate; Helm menu-api retired
 ## 2026-09-27 (stage 1)
