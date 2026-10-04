@@ -17,6 +17,8 @@ spec:
       terminationGracePeriodSeconds: 45            # preStop 5s + worst-case drain ~15s, with margin
       securityContext:
         runAsNonRoot: true
+        runAsUser: 65532
+        runAsGroup: 65532
       containers:
         - name: order-api
           image: ghcr.io/a7mod/tiffinbox-order-api   # tag set per overlay
